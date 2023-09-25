@@ -1,0 +1,56 @@
+#include <OneWire.h>
+
+OneWire ourWire(2);  // Se establece el pin 2 como bus OneWire
+
+void setup(void) {
+  Serial.begin(9600); // Inicializa la comunicación serial a 9600 baudios
+}
+
+void loop(void) {
+  byte addr[8];  // Se crea un arreglo de bytes para almacenar la dirección del dispositivo
+
+  Serial.println("Obteniendo direcciones:");
+
+  // Bucle para buscar y mostrar direcciones de dispositivos OneWire
+  while (ourWire.search(addr)) {
+    Serial.print("Address = ");
+    for (int i = 0; i < 8; i++) {
+      Serial.print(" 0x");
+      Serial.print(addr[i], HEX); // Muestra la dirección en formato hexadecimal
+    }
+    Serial.println(); // Imprime una línea en blanco para separar las direcciones
+  }
+
+  Serial.println();
+
+  ourWire.reset_search(); // Restablece la búsqueda para volver a buscar dispositivos
+  delay(2000); // Espera 2 segundos antes de realizar la siguiente búsqueda
+}
+
+
+
+// Explicación del código:
+
+Se incluye la biblioteca OneWire, que es necesaria para comunicarse con dispositivos OneWire.
+
+Se crea una instancia de OneWire llamada ourWire en el pin 2 del Arduino. Esto establece el pin 2 como el bus OneWire a través del cual se comunicarán los dispositivos.
+
+En la función setup(), se inicia la comunicación serial a una velocidad de 9600 baudios utilizando Serial.begin(9600).
+
+La función loop() es el bucle principal que se ejecuta continuamente.
+
+Se declara un arreglo de bytes addr para almacenar la dirección del dispositivo OneWire.
+
+Se muestra "Obteniendo direcciones:" en el monitor serial para indicar que se están buscando dispositivos.
+
+El bucle while (ourWire.search(addr)) busca dispositivos OneWire y almacena sus direcciones en el arreglo addr.
+
+Se muestra cada dirección en formato hexadecimal en el monitor serial.
+
+Se imprime una línea en blanco para separar las direcciones.
+
+Se restablece la búsqueda utilizando ourWire.reset_search() para prepararse para la próxima búsqueda.
+
+Se agrega un retraso de 2 segundos antes de realizar la siguiente búsqueda utilizando delay(2000).
+
+Este código es útil para identificar y listar las direcciones de dispositivos OneWire conectados al pin 2 del Arduino, lo que puede ser útil al trabajar con sensores o dispositivos que utilizan este protocolo de comunicación.
